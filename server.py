@@ -132,7 +132,6 @@ function load(file, title) {
     el.classList.toggle('active', el.dataset.file === file);
   });
   document.title = title + ' — Gemini Viewer';
-  location.hash = encodeURIComponent(file);
 }
 
 function renderList(items) {
@@ -158,11 +157,6 @@ fetch('/api/list')
   .then(function(data) {
     allItems = data;
     renderList(allItems);
-    // Restore from URL hash
-    var hash = decodeURIComponent(location.hash.slice(1));
-    var match = allItems.find(function(i) { return i.file === hash; });
-    if (match) load(match.file, match.title);
-    else if (allItems.length) load(allItems[0].file, allItems[0].title);
   })
   .catch(function() {
     document.getElementById('list').innerHTML =
